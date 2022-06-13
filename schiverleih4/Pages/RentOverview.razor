@@ -1,0 +1,44 @@
+﻿@page "/rentoverview"
+@using schiverleih4.Data
+@using schiverleih4.Data.VirtualModels
+@inject IUnitOfWork uow
+@inject NavigationManager navMan;
+<h3>Übersicht</h3>
+@if(rents==null)
+{
+    <h3>Aktuell sind keine Produkte verliehen.</h3>
+}
+else
+{
+    <table id="tblOverview">
+        <thead>
+        <tr>
+            <th>MitarbeiterIn</th>
+            <th>KundIn</th>
+            <th>Produkt</th>
+            <th>Verleihstart</th>
+            <th>Verleihende</th>
+            <th>Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+            @foreach(RentsVM rent in rents)
+            {
+                <tr>
+                    <td>@rent.EmployeeFirstName @rent.EmployeeLastName</td>
+                    <td>@rent.CustomerFirstName @rent.CustomerLastName</td>
+                    <td>@rent.ProductTitle</td>
+                    <td>@rent.TimestampStart</td>
+                    <td>@rent.TimestampEnd</td>
+                    <td>
+                        <button id="btnEdit" class="btn btn-primary" @onclick='(()=>{Navigate("editrent/"+rent.RentId.ToString());})'>Edit</button>
+                    </td>
+                </tr>
+
+            }
+            <tr>
+                
+            </tr>
+        </tbody>
+    </table>
+}

@@ -1,0 +1,39 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager navMan;
+<PageTitle>schiverleih4</PageTitle>
+<AuthorizeView>
+<Authorized>
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4 auth">
+            <LoginDisplay />
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+        <article class="content px-4">
+            <ErrorBoundary>
+                <ChildContent>
+                    @Body
+                </ChildContent>
+                <ErrorContent Context="Exception">
+                    <div class="alert alert-danger">
+                        <h3>@Exception.Message</h3>
+                        <h3>Daten konnten nicht gespeichert werden. Bitte versuchen Sie es erneut oder wenden Sie sich an die Administratorin.</h3>
+                   </div>
+                </ErrorContent>
+            </ErrorBoundary>
+            
+        </article>
+    </main>
+</div>
+</Authorized>
+<NotAuthorized>
+    <h3>Bitte loggen Sie sich ein.</h3>
+    <h3>Info: Die Regsitrierung eines neuen Users ist nur durch eine Administratorin möglich.</h3>
+    <button id="logIn" @onclick='(()=>{navMan.NavigateTo("/Identity/Account/Login", forceLoad:true);})'>Login</button>
+</NotAuthorized>
+</AuthorizeView>

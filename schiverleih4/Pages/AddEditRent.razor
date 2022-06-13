@@ -1,0 +1,57 @@
+﻿@page "/addrent"
+@page "/editrent/{rentId}"
+@using schiverleih4.Data
+@using schiverleih4.Data.Models
+@inject IUnitOfWork uow
+@inject IHttpContextAccessor accessor
+@if(customers!=null && products!=null)
+{
+    <EditForm Model="@rent" OnValidSubmit="@(()=>{SaveData();})">
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+        <table id=tblRent>
+            <tr>
+                <th>
+                    KundIn
+                </th>
+                <th>
+                    Produkt
+                </th>
+                <th>
+                    Verleihbeginn
+                </th>
+                <th>
+                    Verleihende
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    <InputSelect id="slcCustomer" @bind-Value="@customerId">
+                        @foreach(Customers customer in customers)
+                        {
+                            <option value="@customer.CustomerId">@customer.FirstName @customer.LastName</option>
+                        }
+                </InputSelect>
+                </td>
+                <td>
+                    <InputSelect id="slcProduct" @bind-Value="@productId">
+                        @foreach(Products product in products)
+                        {
+                            <option value="@product.ProductNumber">@product.ProductTitle</option>
+                        }
+                </InputSelect>
+                </td>
+                <td>
+                    <InputDate id="dateStart" @bind-Value="@rent.TimestampStart"></InputDate>
+                </td>
+                <td><InputDate id="dateÉnd" @bind-Value="@rent.TimestampEnd"></InputDate></td>
+            </tr>
+        </table>
+        <button id="btnSaveChanges" type="submit">Speichern</button>
+    </EditForm>
+   
+}
+else if(rentId==null && customers==null && products==null)
+{
+    <h3>Keine Produkte und/oder KundInnen in der Datenbank vorhanden oder alle Produkte verliehen.</h3>
+}
+
